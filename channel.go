@@ -278,13 +278,14 @@ func (ch *Channel) removeClient(c *Client) {
 	if ok && empty && !closed {
 		log.Printf("[channel %s] last client left, will close after idle timeout", ch.key)
 		// (if a new client comes before the timeout, idleWatch does not close it)
-		go ch.idleWatch()
+		// (IdleTimeout is read here, not in the goroutine, so tests can change it safely)
+		go ch.idleWatch(IdleTimeout)
 	}
 }
 
-// idleWatch closes the channel if it is still empty after IdleTimeout
-func (ch *Channel) idleWatch() {
-	timer := time.NewTimer(IdleTimeout)
+// idleWatch closes the channel if it is still empty after timeout
+func (ch *Channel) idleWatch(timeout time.Duration) {
+	timer := time.NewTimer(timeout)
 	defer timer.Stop()
 
 	select {
