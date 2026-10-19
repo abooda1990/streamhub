@@ -1,5 +1,7 @@
 # streamhub
 
+[![test](https://github.com/abooda1990/streamhub/actions/workflows/test.yml/badge.svg)](https://github.com/abooda1990/streamhub/actions/workflows/test.yml)
+
 Share **one upstream connection** between many live streams and many viewers, in Go.
 
 Some live sources allow only one connection at a time: every new connection cuts the previous
